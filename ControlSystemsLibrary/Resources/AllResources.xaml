@@ -1,0 +1,13 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/ControlSystemsLibrary;component/Resources/Styles/WindowStyle/VS2012WindowStyle.xaml"/>
+        <ResourceDictionary Source="/ControlSystemsLibrary;component/Resources/Icons/VectorIcons/VectorIcons.xaml"/>
+        <ResourceDictionary Source="/ControlSystemsLibrary;component/Resources/Colors/Colors.xaml"/>
+        <ResourceDictionary Source="/ControlSystemsLibrary;component/Resources/Styles/ButtonStyles.xaml"/>
+        <ResourceDictionary Source="/ControlSystemsLibrary;component/Resources/Styles/RadioButtonsStyles.xaml"/>
+        <ResourceDictionary Source="/ControlSystemsLibrary;component/Resources/Styles/CheckBoxesStyles.xaml"/>
+        <ResourceDictionary Source="/ControlSystemsLibrary;component/Resources/Styles/ScrollBarStyles.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary>

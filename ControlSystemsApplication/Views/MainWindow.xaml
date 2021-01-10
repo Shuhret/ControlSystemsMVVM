@@ -1,0 +1,17 @@
+﻿<Window x:Class="ControlSystemsApplication.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ControlSystemsApplication"
+        Style="{DynamicResource VS2012WindowStyle}"
+        xmlns:VM="clr-namespace:ControlSystemsLibrary.ViewModels.MainWindowViewModel;assembly=ControlSystemsLibrary"
+        mc:Ignorable="d"
+        Title="MainWindow" Width="1200" Height="700" WindowStartupLocation="CenterScreen" MinWidth="1040" MinHeight="600">
+    <Window.DataContext>
+        <VM:MainWindowVM/>
+    </Window.DataContext>
+    <Grid Background="#FFF9FAFC">
+        <ContentControl Content="{Binding CurrentUserControl, UpdateSourceTrigger=PropertyChanged}"/>
+    </Grid>
+</Window>

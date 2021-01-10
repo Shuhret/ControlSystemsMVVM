@@ -1,0 +1,49 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="CheckBoxStyle-001" TargetType="{x:Type CheckBox}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type CheckBox}">
+                    <Border x:Name="border1" Padding="4,4,5,4" CornerRadius="3" SnapsToDevicePixels="True" Background="Transparent" Cursor="Hand">
+                        <Grid Height="Auto" Width="Auto">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Border x:Name="border" BorderBrush="#FFD3D9E6" BorderThickness="1" CornerRadius="2" Width="17" Height="17">
+                                <Grid Margin="0">
+                                    <Rectangle x:Name="rectangle" Fill="#FF02B0F1" Margin="4" RadiusY="0.767" RadiusX="0.767" Visibility="Hidden"/>
+                                    <Viewbox x:Name="viewbox" Margin="2,2,3,2" Visibility="Hidden">
+                                        <Canvas HorizontalAlignment="Left" Height="30" UseLayoutRounding="False" VerticalAlignment="Top" Width="30">
+                                            <Canvas Height="16.547" Canvas.Left="2.5" Canvas.Top="6.727" Width="25">
+                                                <Path Data="M2.5,14.8188L10.954,23.2738L27.5,6.7268" Height="17.547" Canvas.Left="-0.5" StrokeStartLineCap="Round" Stretch="Fill" StrokeEndLineCap="Round" Stroke="White" StrokeThickness="5" StrokeLineJoin="Round" Canvas.Top="-0.5" Width="26"/>
+                                            </Canvas>
+                                        </Canvas>
+                                    </Viewbox>
+                                </Grid>
+                            </Border>
+                            <ContentPresenter x:Name="contentPresenter" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Grid.ColumnSpan="1" Grid.Column="1" VerticalAlignment="Center" Margin="7,1,0,0" Opacity="0.75"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="{x:Null}">
+                            <Setter Property="Visibility" TargetName="rectangle" Value="Visible"/>
+                            <Setter Property="Opacity" TargetName="contentPresenter" Value="1"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter Property="Visibility" TargetName="viewbox" Value="Visible"/>
+                            <Setter Property="Background" TargetName="border" Value="#FF02B0F1"/>
+                            <Setter Property="BorderThickness" TargetName="border" Value="0"/>
+                            <Setter Property="Opacity" TargetName="contentPresenter" Value="1"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="border1" Value="White"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+</ResourceDictionary>
