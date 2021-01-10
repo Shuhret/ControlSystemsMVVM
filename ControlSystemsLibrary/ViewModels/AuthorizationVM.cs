@@ -424,13 +424,25 @@ namespace ControlSystemsLibrary.ViewModels
 
         async void LoadCurrentConnectionName()
         {
+            MessageText = "Загрузка текущего подключения...";
+            MessageTextColor = GetColor.Get("Blue-003");
+
             CurrentConnectionName = await Task.Run(XmlClass.GetSelectedConnectionName);
-            CurrentConnectionTextColor = GetColor.Get("Dark-003");
+            
 
             if (CurrentConnectionName == "")
             {
                 CurrentConnectionName = "Не создано!";
+                MessageText = "Нет созданных подключений.\nСоздайте новое подключение.";
+                MessageTextColor = GetColor.Get("Red-001");
             }
+            else
+            {
+                CurrentConnectionTextColor = GetColor.Get("Dark-003");
+                MessageText = "Выбрано подключение: "+'"'+ CurrentConnectionName+'"';
+                MessageTextColor = GetColor.Get("Blue-003");
+            }
+
         }
 
         async void LoadAllConnections()
@@ -473,28 +485,37 @@ namespace ControlSystemsLibrary.ViewModels
             MessageTextColor = GetColor.Get("Blue-003");
             CurrentConnectionName =  (sender as ConnectionRB).Content.ToString();
             await Task.Run(() => XmlClass.SetSelectConnection(CurrentConnectionName));
-
             MessageText = "Выбрано подключение: "+ '"' + CurrentConnectionName +'"';
             LoaderUC = null;
         }
 
         private void ConnectionRB_Deleted(object sender, EventArgs e)
         {
-            foreach(ConnectionRB CRB in Connections)
+            string DelConnName = (sender as ConnectionRB).Content.ToString();
+            MessageText = "Удаление подключения: " + '"' + DelConnName + '"';
+            MessageTextColor = GetColor.Get("Blue-003");
+
+            foreach (ConnectionRB CRB in Connections)
             {
-                if(CRB.Content == (sender as ConnectionRB).Content)
+                if(CRB.Content.ToString() == DelConnName)
                 {
                     bool isCheck = (bool)CRB.IsChecked;
                     DeleteConnectionFromXmlFile(CRB.Content.ToString());
                     Connections.Remove(CRB);
+
+                    MessageText = "Подключение: " + '"' + DelConnName + '"'+" удалено!";
+
                     if (isCheck && Connections.Count >= 1)// если удален выбранный и есть еще
                     {
                         XmlClass.DeSelectAllConnections();
                         Connections[Connections.Count - 1].IsChecked = true;
+                        MessageText += "\nВыбрано подключение: " + '"' + Connections[Connections.Count - 1].Content.ToString();
                     }
                     if(Connections.Count == 0)
                     {
                         CurrentConnectionName = "Не создано!";
+                        MessageText = "Нет созданных подключений.\nСоздайте новое подключение.";
+                        MessageTextColor = GetColor.Get("Red-001");
                         CurrentConnectionTextColor = GetColor.Get("Red-001");
                     }
                     break;
