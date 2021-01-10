@@ -18,7 +18,6 @@ namespace ControlSystemsApplication
 {
     public partial class MainWindow : Window
     {
-        // Main window
         public MainWindow()
         {
             InitializeComponent();
