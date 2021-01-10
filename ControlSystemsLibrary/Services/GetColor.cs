@@ -7,7 +7,14 @@ namespace ControlSystemsLibrary.Services
     {
         public static SolidColorBrush Get(string ColorName)
         {
-            return new SolidColorBrush((Color)Application.Current.FindResource(ColorName));
+            try
+            {
+                return new SolidColorBrush((Color)Application.Current.FindResource(ColorName));
+            }
+            catch
+            {
+                return new SolidColorBrush(Colors.Red);
+            }
         }
     }
 }

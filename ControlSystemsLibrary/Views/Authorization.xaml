@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ControlSystemsLibrary.Views"
-             xmlns:VM="clr-namespace:ControlSystemsLibrary.ViewModels" xmlns:controls="clr-namespace:ControlSystemsLibrary.Controls"
+             xmlns:VM="clr-namespace:ControlSystemsLibrary.ViewModels" 
+             xmlns:controls="clr-namespace:ControlSystemsLibrary.Controls"
              mc:Ignorable="d" 
              
              d:DesignHeight="900" d:DesignWidth="1440">
@@ -32,7 +33,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <StackPanel x:Name="AuthorizationStackPanel" Visibility="{Binding AuthorizationVisibility, UpdateSourceTrigger=PropertyChanged}" SnapsToDevicePixels="True" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" Width="280" Grid.Column="1" Grid.Row="1" d:IsHidden="True">
+            <StackPanel x:Name="AuthorizationStackPanel" Visibility="{Binding AuthorizationVisibility, UpdateSourceTrigger=PropertyChanged}" SnapsToDevicePixels="True" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" Width="280" Grid.Column="1" Grid.Row="1">
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                     <TextBlock Text="CONTROL" FontFamily="/ControlSystemsLibrary;component/Resources/Fonts/#Roboto">
                         <TextBlock.Foreground>
@@ -65,7 +66,7 @@
                         </PasswordBox.Foreground>
                     </PasswordBox>
                 </Border>
-                <Button Style="{DynamicResource ButtonStyle-000}" Height="37" Foreground="White" FontFamily="/ControlSystemsLibrary;component/Resources/Fonts/#Roboto" Content="АВТОРИЗАЦИЯ" Margin="0,5,0,0" BorderThickness="0" BorderBrush="#FF00A3E0">
+                <Button Style="{DynamicResource ButtonStyle-000}" IsEnabled="False" Height="37" Foreground="White" FontFamily="/ControlSystemsLibrary;component/Resources/Fonts/#Roboto" Content="АВТОРИЗАЦИЯ" Margin="0,5,0,0" BorderThickness="0" BorderBrush="#FF00A3E0">
                     <Button.Background>
                         <SolidColorBrush Color="{DynamicResource Blue-001}"/>
                     </Button.Background>
@@ -179,7 +180,7 @@
                     </Grid>
                 </Border>
             </Grid>
-            <Grid x:Name="CreateConnectionListGrid" Visibility="{Binding CreateConnectionVisibility, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" d:IsHidden="True">
+            <Grid x:Name="CreateConnectionListGrid" Visibility="{Binding CreateConnectionVisibility, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1">
                 <Rectangle Margin="1" Fill="White" RadiusX="4.458" RadiusY="4.458">
                     <Rectangle.Effect>
                         <DropShadowEffect BlurRadius="20" Opacity="0.1" ShadowDepth="0"/>

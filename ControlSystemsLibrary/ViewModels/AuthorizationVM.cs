@@ -98,7 +98,7 @@ namespace ControlSystemsLibrary.ViewModels
         }
 
 
-        private SolidColorBrush currentConnectionTextColor = GetColor.Get("Dark-003");
+        private SolidColorBrush currentConnectionTextColor = GetColor.Get("Red-001");
         public SolidColorBrush CurrentConnectionTextColor
         {
             get => currentConnectionTextColor;
@@ -246,8 +246,8 @@ namespace ControlSystemsLibrary.ViewModels
             {
                 return new DelegateCommand((obj) => 
                 { 
-                    ShowConnectionList();
                     MessageText = "";
+                    ShowConnectionList();
                 });
             }
         }
@@ -425,6 +425,8 @@ namespace ControlSystemsLibrary.ViewModels
         async void LoadCurrentConnectionName()
         {
             CurrentConnectionName = await Task.Run(XmlClass.GetSelectedConnectionName);
+            CurrentConnectionTextColor = GetColor.Get("Dark-003");
+
             if (CurrentConnectionName == "")
             {
                 CurrentConnectionName = "Не создано!";
@@ -433,7 +435,10 @@ namespace ControlSystemsLibrary.ViewModels
 
         async void LoadAllConnections()
         {
+            MessageText = "Загрузка списка подключений...";
+            MessageTextColor = GetColor.Get("Blue-003");
             LoaderUC = new Loader();
+
             Connections.Clear();
             LoadCurrentConnectionName();
             ArrayList array = await Task.Run(XmlClass.ReadAllConnectionsName);
@@ -463,8 +468,14 @@ namespace ControlSystemsLibrary.ViewModels
 
         async void SelectConnection(object sender, RoutedEventArgs e)
         {
+            LoaderUC = new Loader();
+            MessageText = "Выбор подключения...";
+            MessageTextColor = GetColor.Get("Blue-003");
             CurrentConnectionName =  (sender as ConnectionRB).Content.ToString();
             await Task.Run(() => XmlClass.SetSelectConnection(CurrentConnectionName));
+
+            MessageText = "Выбрано подключение: "+ '"' + CurrentConnectionName +'"';
+            LoaderUC = null;
         }
 
         private void ConnectionRB_Deleted(object sender, EventArgs e)

@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace ControlSystemsLibrary.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для Authorization.xaml
-    /// </summary>
     public partial class Authorization : UserControl
     {
         public Authorization()
