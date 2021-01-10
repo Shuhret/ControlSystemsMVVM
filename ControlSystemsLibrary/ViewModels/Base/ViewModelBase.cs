@@ -8,10 +8,13 @@ using System.Threading.Tasks;
 
 namespace ControlSystemsLibrary
 {
-    public class ViewModelBase : INotifyPropertyChanged
+    public class ViewModelBase : INotifyPropertyChanged, IDisposable
     {
         #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
+
+
+
         public void OnPropertyChanged([CallerMemberName] string PropertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
@@ -24,6 +27,19 @@ namespace ControlSystemsLibrary
         //    OnPropertyChanged(Property);
         //    return true;
         //}
+
+
+        private bool _Disposed;
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        protected virtual void Dispose(bool Disposing)
+        {
+            if (!Disposing || _Disposed) return;
+            _Disposed = true;
+            // Освобождение управляемых ресурсов
+        }
         #endregion
 
     }

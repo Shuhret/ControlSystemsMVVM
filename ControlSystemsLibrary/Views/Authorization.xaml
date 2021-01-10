@@ -409,7 +409,7 @@
                                     <SolidColorBrush Color="{DynamicResource Blue-001}"/>
                                 </Button.Background>
                             </Button>
-                            <Button Content="Сохранить" IsEnabled="{Binding SaveCreatedConnectionButtonEnabled, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource ButtonStyle-000}" BorderThickness="0" FontFamily="/ControlSystemsLibrary;component/Resources/Fonts/#Roboto" Margin="0" Padding="1" Foreground="White" Grid.Column="4" BorderBrush="{x:Null}" Height="37">
+                            <Button Content="Сохранить" Command="{Binding SaveConnectionCommand}" IsEnabled="{Binding SaveCreatedConnectionButtonEnabled, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource ButtonStyle-000}" BorderThickness="0" FontFamily="/ControlSystemsLibrary;component/Resources/Fonts/#Roboto" Margin="0" Padding="1" Foreground="White" Grid.Column="4" BorderBrush="{x:Null}" Height="37">
                                 <Button.Background>
                                     <SolidColorBrush Color="{DynamicResource Blue-001}"/>
                                 </Button.Background>

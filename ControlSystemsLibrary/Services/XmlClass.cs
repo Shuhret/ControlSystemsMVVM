@@ -326,13 +326,13 @@ namespace ControlSystemsLibrary.Services
             }
             catch
             {
-                if (MessageBox.Show("Ошибка чтения файла конфигурации.\nУдалить ошибочный файл и создать новый файл конфигурации?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-                {
+                //if (MessageBox.Show("Ошибка чтения файла конфигурации.\nУдалить ошибочный файл и создать новый файл конфигурации?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                //{
                     File.Delete(@"C:\Users\" + Environment.UserName + @"\Documents\Control Systems\Config.xml");
                     CreateConfigFile();
 
-                    MessageBox.Show("Создан новый файл конфигурации.\nСоздайте новое подключение.", "XmlClass.GetSelectedConnectionName()"); // Вывод сообщения об ошибке
-                }
+                //    MessageBox.Show("Создан новый файл конфигурации.\nСоздайте новое подключение.", "XmlClass.GetSelectedConnectionName()"); // Вывод сообщения об ошибке
+                //}
             }
             return ConnName;
         }

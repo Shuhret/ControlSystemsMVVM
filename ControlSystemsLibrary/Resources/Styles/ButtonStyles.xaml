@@ -40,7 +40,7 @@
                             </Trigger.EnterActions>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" TargetName="rectangle_Copy1" Value="0.30"/>
+                            <Setter Property="Opacity" TargetName="rectangle_Copy1" Value="0.50"/>
 
                         </Trigger>
                     </ControlTemplate.Triggers>
