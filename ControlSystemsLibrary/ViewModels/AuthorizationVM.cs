@@ -85,7 +85,7 @@ namespace ControlSystemsLibrary.ViewModels
                     ConnectionStringFalseVisibility = Visibility.Visible;
                     ConnectionStringTrueVisibility = Visibility.Collapsed;
                 }
-                CheckcreatedConnectionResult = false;
+                
                 ClearCreatedValues();
                 CheckCreatedValues();
                 OnPropertyChanged();
@@ -190,21 +190,10 @@ namespace ControlSystemsLibrary.ViewModels
             get => checkcreatedConnectionResult;
             set
             {
-                if (Equals(checkcreatedConnectionResult, value)) return;
-
                 checkcreatedConnectionResult = value;
-                if (value == true)
-                {
-                    ShowMessage("Соединение установлено!", "Green-002", false);
-                    SaveCreatedConnectionButtonEnabled = true;
-                }
-                else
-                {
-                    SaveCreatedConnectionButtonEnabled = false;
-                    ShowMessage("", "Red-001", false);
-                }
 
-                LoaderUC = null;
+                SaveCreatedConnectionButtonEnabled = value; // "Сохранить"
+
                 OnPropertyChanged();
             }
         }
@@ -217,7 +206,7 @@ namespace ControlSystemsLibrary.ViewModels
 
 
         // Цвет текста "Название текущего подлючения" -----------------------------------------------------------------------
-        private SolidColorBrush currentConnectionTextColor = GetColor.Get("Red-001");
+        private SolidColorBrush currentConnectionTextColor = GetColor.Get("Dark-003");
         public SolidColorBrush CurrentConnectionTextColor
         {
             get => currentConnectionTextColor;
@@ -231,18 +220,13 @@ namespace ControlSystemsLibrary.ViewModels
 
 
         // Название текущего подключения ------------------------------------------------------------------------------------
-        private string currentConnectionName = "Не создано!";
+        private string currentConnectionName;
         public string CurrentConnectionName
         {
             get => currentConnectionName;
             set
             {
-                if (Equals(currentConnectionName, value)) return;
                 currentConnectionName = value;
-                if (value == "Не создано!")
-                {
-                    CurrentConnectionTextColor = GetColor.Get("Red-001");
-                }
                 OnPropertyChanged();
             }
         }
@@ -285,7 +269,42 @@ namespace ControlSystemsLibrary.ViewModels
 
 
 
+        // Enabled элементов авторизации ------------------------------------------------------------------------------------
+        private bool authorizationEnabled = false;
+        public bool AuthorizationEnabled
+        {
+            get => authorizationEnabled;
+            set
+            {
+                if (Equals(authorizationEnabled, value)) return;
+                authorizationEnabled = value;
+                OnPropertyChanged();
+            }
+        }
 
+        private bool connectionListEnabled = true;
+        public bool ConnectionListEnabled
+        {
+            get => connectionListEnabled;
+            set
+            {
+                if (Equals(connectionListEnabled, value)) return;
+                connectionListEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool createconnectionEnabled = true;
+        public bool CreateconnectionEnabled
+        {
+            get => createconnectionEnabled;
+            set
+            {
+                if (Equals(createconnectionEnabled, value)) return;
+                createconnectionEnabled = value;
+                OnPropertyChanged();
+            }
+        }
 
 
         // Enabled кнопки "Проверить соединение" создаваемого подключения ---------------------------------------------------
@@ -295,7 +314,6 @@ namespace ControlSystemsLibrary.ViewModels
             get => checkCreatedConnectionButtonEnabled;
             set
             {
-                if (Equals(checkCreatedConnectionButtonEnabled, value)) return;
                 checkCreatedConnectionButtonEnabled = value;
                 OnPropertyChanged();
             }
@@ -345,13 +363,13 @@ namespace ControlSystemsLibrary.ViewModels
 
 
         // Visibility окна списка подключений -------------------------------------------------------------------------------
-        private Visibility connectionListVisibility;
+        private Visibility connectionListVisibility = Visibility.Hidden;
         public Visibility ConnectionListVisibility
         {
             get => connectionListVisibility;
             set
             {
-                if (Equals(connectionListVisibility, value)) return;
+                //if (Equals(connectionListVisibility, value)) return;
                 connectionListVisibility = value;
                 if (value == Visibility.Visible)
                 {
@@ -363,7 +381,7 @@ namespace ControlSystemsLibrary.ViewModels
 
 
         // Visibility окна создани подключения ------------------------------------------------------------------------------
-        private Visibility createConnectionVisibility;
+        private Visibility createConnectionVisibility = Visibility.Hidden;
         public Visibility CreateConnectionVisibility
         {
             get => createConnectionVisibility;
@@ -377,7 +395,7 @@ namespace ControlSystemsLibrary.ViewModels
 
 
         // Visibility элементов для создания с режимом "ConnectionString" ---------------------------------------------------
-        private Visibility connectionStringTrueVisibility;
+        private Visibility connectionStringTrueVisibility = Visibility.Hidden;
         public Visibility ConnectionStringTrueVisibility
         {
             get => connectionStringTrueVisibility;
@@ -472,8 +490,6 @@ namespace ControlSystemsLibrary.ViewModels
                 return new DelegateCommand((obj) =>
                 {
                     CheckCreatedConnection();
-                    ShowMessage(false);
-
                 });
             }
         }
@@ -502,10 +518,38 @@ namespace ControlSystemsLibrary.ViewModels
             }
         }
 
+        // Команда для проверки соединения с выбранным подключением ---------------------------------------------------------
+        public ICommand ClickCheckSelectedConnection
+        {
+            get
+            {
+                return new DelegateCommand((obj) =>
+                {
+                    CheckSelectedConnection();
+                });
+            }
+        }
+
+
         #endregion ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 
+        async void CheckSelectedConnection()
+        {
+            ConnectionListEnabled = false;
+            ShowMessage("Установка соединения...", "Blue-003", true);
 
+            if (await Task.Run(() => OpenCloseConnection(Cryption.Decrypt(CurrentCryptConnectionString))) == true)
+            {
+                ShowMessage("Соединение установлено!", "Green-002", false);
+                ConnectionListEnabled = true;
+            }
+            else
+            {
+                ShowMessage("Не удалось устновить соединение.", "Red-001", false);
+                ConnectionListEnabled = true;
+            }
+        }
 
         #region События =====================================================================================================
 
@@ -515,10 +559,13 @@ namespace ControlSystemsLibrary.ViewModels
             ShowMessage("Выбор подключения...", "Blue-003", true);
 
             CurrentConnectionName = (sender as ConnectionRB).Content.ToString();
+            CurrentConnectionTextColor = GetColor.Get("Dark-003");
+
 
             await Task.Run(() => XmlClass.SetSelectConnection(CurrentConnectionName));
+            
+            CurrentCryptConnectionString = await Task.Run(XmlClass.GetSelectedConnectionString);
 
-            LoadCurrentConnectionString();
 
             ShowMessage("Выбрано подключение: " + '"' + CurrentConnectionName + '"', "Blue-003", false);
         }
@@ -527,32 +574,32 @@ namespace ControlSystemsLibrary.ViewModels
         private void ConnectionRB_Deleted(object sender, EventArgs e)
         {
             string DelConnName = (sender as ConnectionRB).Content.ToString();
+
             ShowMessage("Удаление подключения: " + '"' + DelConnName + '"', "Blue-003", true);
 
-
-            foreach (ConnectionRB CRB in Connections)
+            if (XmlClass.DeleteConnection(DelConnName) == true)
             {
-                if (CRB.Content.ToString() == DelConnName)
+                foreach (ConnectionRB CRB in Connections)
                 {
-                    bool isCheck = (bool)CRB.IsChecked;
-                    DeleteConnectionFromXmlFile(CRB.Content.ToString());
-                    Connections.Remove(CRB);
-
-                    ShowMessage("Подключение: " + '"' + DelConnName + '"' + " удалено!", "Blue-003", false);
-
-                    if (isCheck && Connections.Count >= 1)// если удален выбранный и есть еще
+                    if (CRB.Content.ToString() == DelConnName)
                     {
-                        Connections[Connections.Count - 1].IsChecked = true;
-                    }
-                    if (Connections.Count == 0)
-                    {
-                        CurrentConnectionName = "Не создано!";
+                        bool isCheck = (bool)CRB.IsChecked;
+                        Connections.Remove(CRB);
 
-                        ShowMessage("Нет созданных подключений.\nСоздайте новое подключение.", "Red-001", false);
+                        ShowMessage("Подключение: " + '"' + DelConnName + '"' + " удалено!", "Blue-003", false);
 
-                        CurrentConnectionTextColor = GetColor.Get("Red-001");
+                        if (isCheck && Connections.Count >= 1)// если удален выбранный и есть еще
+                        {
+                            Connections[Connections.Count - 1].IsChecked = true;
+                        }
+                        if (Connections.Count == 0)
+                        {
+                            CurrentConnectionName = null;
+                            ShowMessage("Нет созданных подключений.\nСоздайте новое подключение.", "Red-001", false);
+                            CurrentConnectionTextColor = GetColor.Get("Red-001");
+                        }
+                        break;
                     }
-                    break;
                 }
             }
         }
@@ -565,41 +612,37 @@ namespace ControlSystemsLibrary.ViewModels
         #region Методы ======================================================================================================
 
         // Метод: Первый вызываемый метод при загрузке ----------------------------------------------------------------------
-        private void StartMethod()
+        async void StartMethod()
         {
-
-            LoadCurrentConnectionName();
-            if (CurrentConnectionName != "Не создано!")
-            {
-                LoadCurrentUserName();
-                LoadCurrentConnectionString();
-            }
-        }
-
-
-        // Метод: Загружает зашифрованную строку подключения из XML-файла ---------------------------------------------------
-        async void LoadCurrentConnectionString()
-        {
-            CurrentCryptConnectionString = await Task.Run(XmlClass.GetSelectedConnectionString);
-        }
-
-        // Метод: Загружает название последнего выбранного подключения ------------------------------------------------------
-        async void LoadCurrentConnectionName()
-        {
-            ShowMessage("Загрузка текущего подключения...", "Blue-003", true);
-
+            AuthorizationEnabled = false;
+            ShowMessage("Получение имени пользователя...", "Blue-003", true);
+            CurrentUserName = await Task.Run(XmlClass.GetCurrentUserName);
+            
+            ShowMessage("Получение названия подключения...", "Blue-003", true);
             CurrentConnectionName = await Task.Run(XmlClass.GetSelectedConnectionName);
             
+            ShowMessage("Загрузка зашифрованной строки подключения...", "Blue-003", true);
+            CurrentCryptConnectionString = await Task.Run(XmlClass.GetSelectedConnectionString);
 
-            if (CurrentConnectionName == "")
+            if (CurrentCryptConnectionString != null)
             {
-                CurrentConnectionName = "Не создано!";
-                ShowMessage("Нет созданных подключений.\nСоздайте новое подключение.", "Red-001", false);
+                ShowMessage("Установка соединения...", "Blue-003", true);
+                if (await Task.Run(() => OpenCloseConnection(Cryption.Decrypt(CurrentCryptConnectionString))))
+                {
+                    ShowMessage("Соединение установлено!", "Green-002", false);
+                    AuthorizationEnabled = true;
+                }
+                else
+                {
+                    ShowMessage("Не удалось установить соединение.", "Red-001", false);
+                    AuthorizationEnabled = true;
+                }
             }
             else
             {
-                CurrentConnectionTextColor = GetColor.Get("Dark-003");
-                ShowMessage("Выбрано подключение: " + '"' + CurrentConnectionName + '"', "Blue-003", false);
+                AuthorizationEnabled = true;
+                CurrentConnectionTextColor = GetColor.Get("Red-001");
+                ShowMessage("Создайте подключение.", "Red-001", false);
             }
         }
 
@@ -609,7 +652,6 @@ namespace ControlSystemsLibrary.ViewModels
             ShowMessage("Загрузка списка подключений...", "Blue-003", true);
 
             Connections.Clear();
-            LoadCurrentConnectionName();
             ArrayList array = await Task.Run(XmlClass.ReadAllConnectionsName);
             if (array.Count > 0)
             {
@@ -630,17 +672,16 @@ namespace ControlSystemsLibrary.ViewModels
             else
             {
                 ShowCreateConnection();
-                CurrentConnectionName = "Не создано!";
             }
 
             ShowMessage(false);
         }
         
-        // Метод: Удаляет удаленное подключение из XML-файла ----------------------------------------------------------------
-        void DeleteConnectionFromXmlFile(string DeletedConnectionName)
-        {
-            XmlClass.DeleteConnection(DeletedConnectionName);
-        }
+
+
+
+
+
 
         // Метод: Показывает окно авторизации (остальные окна скрывает) -----------------------------------------------------
         void ShowAuthorization()
@@ -667,9 +708,15 @@ namespace ControlSystemsLibrary.ViewModels
             ConnectionStringMode = false;
         }
 
+
+
+
+
         // Метод: Очищает все значения создаваемого подключения -------------------------------------------------------------
         void ClearCreatedValues()
         {
+            CheckcreatedConnectionResult = false;
+
             CreatedConnectionStringName = "";
             CreatedConnectionStringServer = "";
             CreatedConnectionStringDataBase = "";
@@ -711,11 +758,15 @@ namespace ControlSystemsLibrary.ViewModels
         // Метод: Проверяет соединение создаваемым подключением -------------------------------------------------------------
         async void CheckCreatedConnection()
         {
-            ShowMessage("Установка соединения...", "Blue-003", true);
-
-            CheckCreatedConnectionButtonEnabled = false;
-            try
+            ShowMessage("Проверка названия подключения", "Blue-003", true);
+            if (await Task.Run(() => XmlClass.CheckConnectionName(createdConnectionStringName)) == false)
             {
+                CreateconnectionEnabled = false;
+                CheckCreatedConnectionButtonEnabled = false;
+
+                ShowMessage("Установка соединения...", "Blue-003", true);
+
+                CheckcreatedConnectionResult = false;
                 if (ConnectionStringMode == true)
                 {
                     ConnectionStringBuilder.ConnectionString = CreatedConnectionString;
@@ -727,42 +778,44 @@ namespace ControlSystemsLibrary.ViewModels
                     ConnectionStringBuilder.UserID = CreatedConnectionStringUserID;
                     ConnectionStringBuilder.Password = CreatedConnectionStringPassword;
                 }
-                CheckcreatedConnectionResult = await Task.Run(OpenCloseConnection);
-                
+
+
+                if (await Task.Run(() => OpenCloseConnection(ConnectionStringBuilder.ConnectionString)))
+                {
+                    ShowMessage("Соединение установлено!", "Green-002", false);
+                    CheckcreatedConnectionResult = true;
+                    CreateconnectionEnabled = true;
+                }
+                else
+                {
+                    ShowMessage("Не удалось установить соединение.", "Red-001", false);
+                    CreateconnectionEnabled = true;
+                }
             }
-            catch (Exception ex)
+            else
             {
-                ShowMessage(ex.Message, "Red-001", false);
+                ShowMessage("Подключение с названием "+'"'+ createdConnectionStringName+'"' +" уже создано. Измените название.", "Red-001", false);
             }
         }
 
         // Метод: Пытается открыть и закрыть подключение с создаваемым подключением -----------------------------------------
-        bool OpenCloseConnection()
+        bool OpenCloseConnection(string ConnString)
         {
-            bool ok = false;
-
-            using (SqlConnection conn = new SqlConnection(ConnectionStringBuilder.ConnectionString))
+            using (SqlConnection conn = new SqlConnection(ConnString))
             {
                 try
                 {
                     conn.Open();
-                    ok = true;
                     conn.Close();
+                    return true;
                 }
-                catch (Exception ex)
+                catch
                 {
-                    ShowMessage(ex.Message, "Red-001", false);
-                    ok = false;
+                    return false;
                 }
             }
-            return ok;
         }
 
-        // Метод: Загружает имя последнего авторизованного пользователя -----------------------------------------------------
-        async void LoadCurrentUserName()
-        {
-            CurrentUserName = await Task.Run(XmlClass.GetCurrentUserName);
-        }
 
         // Метод: Вставляет в поле строку подключения из буфера обмена ------------------------------------------------------
         void PasteConnectionString()
@@ -770,20 +823,29 @@ namespace ControlSystemsLibrary.ViewModels
             CreatedConnectionString = Clipboard.GetText();
         }
 
-
         async void SaveConnection()
         {
+            CreateconnectionEnabled = false;
             ShowMessage("Сохранение подключения...", "Blue-003", true);
 
             CurrentConnectionName = CreatedConnectionStringName;
-            await Task.Run(() => XmlClass.AddConnectSetting(CurrentConnectionName, ConnectionStringBuilder.ConnectionString));
-
+            if(await Task.Run(() => XmlClass.CreateConnectionString(CurrentConnectionName, ConnectionStringBuilder.ConnectionString)) == true)
+            {
+                ClearCreatedValues();
+                ShowMessage("Подключение " + '"' + CurrentConnectionName + '"' + " сохранено!", "Green-002", false);
+                CurrentConnectionTextColor = GetColor.Get("Dark-003");
+            }
+            else
+            {
+                ShowMessage("Что-то пошло не так", "Green-002", false);
+            }
+            
             SaveCreatedConnectionButtonEnabled = false;
-            ClearCreatedValues();
-
-            ShowMessage("Подключение " + '"' + CurrentConnectionName + '"' + " сохранено!", "Green-002", false);
-
+            CreateconnectionEnabled = true;
         }
+
+
+
 
 
         void ShowMessage(string Text, string TextColor, bool ShowLoader)

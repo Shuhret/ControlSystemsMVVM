@@ -16,7 +16,7 @@
                         <Grid>
                             <Border Background="Transparent">
                                 <Grid>
-                                    <Rectangle x:Name="rectangle" Fill="#FFF4F5F7" Margin="0" RadiusY="2" RadiusX="2" Visibility="Hidden"/>
+                                    <Rectangle x:Name="rectangle" Fill="White" Margin="0" RadiusY="1" RadiusX="1" Visibility="Hidden"/>
                                     <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                 </Grid>
                             </Border>
@@ -44,7 +44,12 @@
                         <Grid>
                             <Border x:Name="border1" Background="Transparent" CornerRadius="0" Margin="0" Opacity="1" Cursor="Hand" BorderThickness="0,0,0,1">
                                 <Border.BorderBrush>
-                                    <SolidColorBrush Color="#FFDEE3EE"/>
+                                    <LinearGradientBrush EndPoint="1,0.983" StartPoint="0,0.983">
+                                        <GradientStop Color="{DynamicResource Light-001}" Offset="0"/>
+                                        <GradientStop Color="{DynamicResource Light-001}" Offset="1"/>
+                                        <GradientStop Color="{DynamicResource Light-004}" Offset="0.25"/>
+                                        <GradientStop Color="{DynamicResource Light-004}" Offset="0.75"/>
+                                    </LinearGradientBrush>
                                 </Border.BorderBrush>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
@@ -53,7 +58,16 @@
                                         <ColumnDefinition Width="auto"/>
                                         <ColumnDefinition Width="auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <Rectangle x:Name="rectangle1" Fill="White" RadiusX="0" RadiusY="0" Grid.ColumnSpan="4" Opacity="0" StrokeThickness="0" Stroke="{x:Null}"/>
+                                    <Rectangle x:Name="rectangle1" RadiusX="0" RadiusY="0" Grid.ColumnSpan="4" Opacity="0" StrokeThickness="0" Stroke="{x:Null}">
+                                        <Rectangle.Fill>
+                                            <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                                                <GradientStop Color="{DynamicResource Light-001}" Offset="0"/>
+                                                <GradientStop Color="{DynamicResource Light-001}" Offset="1"/>
+                                                <GradientStop Color="White" Offset="0.15"/>
+                                                <GradientStop Color="White" Offset="0.85"/>
+                                            </LinearGradientBrush>
+                                        </Rectangle.Fill>
+                                    </Rectangle>
                                     <Border x:Name="border" HorizontalAlignment="Center" VerticalAlignment="Center" Width="17" Height="17" BorderThickness="1" BorderBrush="#FFD3D9E6" CornerRadius="10" Background="White">
                                         <Rectangle x:Name="rectangle" Margin="3" RadiusY="4.5" RadiusX="4.5" Fill="#FF1697FC" Visibility="Hidden"/>
                                     </Border>

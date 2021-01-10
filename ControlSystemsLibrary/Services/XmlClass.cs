@@ -49,7 +49,6 @@ namespace ControlSystemsLibrary.Services
                     Root.AppendChild(Connections);
                     // -----------------------------------------------------------------------------------------------------------
                     XmlNode CurrentUserName = document.CreateElement("CurrentUserName");
-
                     Root.AppendChild(CurrentUserName);
                     // -----------------------------------------------------------------------------------------------------------
 
@@ -114,8 +113,9 @@ namespace ControlSystemsLibrary.Services
         }
 
         //---Добавление Параметра подключения--------------------------------------------------------------------------------
-        public static void AddConnectSetting(string Name, string ConnectionString)
+        public static bool CreateConnectionString(string Name, string ConnectionString)
         {
+            bool flag = false;
             try
             {
                 CreateConfigFile();
@@ -147,11 +147,13 @@ namespace ControlSystemsLibrary.Services
                     }
                 }
                 document.Save(path);
+                flag = true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "AddConnectSetting(string Name, string ConnectionString)");
             }
+            return flag;
         }
 
         //---Метод: Проверяет не создана ли подключение с таким названием----------------------------------------------------
@@ -326,13 +328,13 @@ namespace ControlSystemsLibrary.Services
             }
             catch
             {
-                //if (MessageBox.Show("Ошибка чтения файла конфигурации.\nУдалить ошибочный файл и создать новый файл конфигурации?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
-                //{
+                if (MessageBox.Show("Ошибка чтения файла конфигурации.\nУдалить ошибочный файл и создать новый файл конфигурации?", "Question", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
                     File.Delete(@"C:\Users\" + Environment.UserName + @"\Documents\Control Systems\Config.xml");
                     CreateConfigFile();
 
-                //    MessageBox.Show("Создан новый файл конфигурации.\nСоздайте новое подключение.", "XmlClass.GetSelectedConnectionName()"); // Вывод сообщения об ошибке
-                //}
+                    MessageBox.Show("Создан новый файл конфигурации.\nСоздайте новое подключение.", "XmlClass.GetSelectedConnectionName()"); // Вывод сообщения об ошибке
+                }
             }
             return ConnName;
         }
@@ -373,8 +375,9 @@ namespace ControlSystemsLibrary.Services
         }
 
         //---Метод: Удаляет подключение из Config файла----------------------------------------------------------------------
-        public static void DeleteConnection(string ConnectionName)
+        public static bool DeleteConnection(string ConnectionName)
         {
+            bool flag = false;
             try
             {
                 //DeSelectAllConnections();
@@ -401,11 +404,13 @@ namespace ControlSystemsLibrary.Services
                     }
                 }
                 document.Save(path);
+                flag = true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "XmlClass.DeleteConnection(string ConnectionName)");
             }
+            return flag;
         }
     }
 }

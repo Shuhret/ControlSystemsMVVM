@@ -33,7 +33,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <StackPanel x:Name="AuthorizationStackPanel" Visibility="{Binding AuthorizationVisibility, UpdateSourceTrigger=PropertyChanged}" SnapsToDevicePixels="True" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" Width="280" Grid.Column="1" Grid.Row="1">
+            <StackPanel x:Name="AuthorizationStackPanel" IsEnabled="{Binding AuthorizationEnabled, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding AuthorizationVisibility, UpdateSourceTrigger=PropertyChanged}" SnapsToDevicePixels="True" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" Width="280" Grid.Column="1" Grid.Row="1">
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                     <TextBlock Text="CONTROL" FontFamily="/ControlSystemsLibrary;component/Resources/Fonts/#Roboto">
                         <TextBlock.Foreground>
@@ -77,7 +77,7 @@
                     </Button.Background>
                 </Button>
             </StackPanel>
-            <Grid x:Name="ConnectionListGrid"  Visibility="{Binding ConnectionListVisibility, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1">
+            <Grid x:Name="ConnectionListGrid" IsEnabled="{Binding ConnectionListEnabled, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ConnectionListVisibility, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" d:IsHidden="True">
                 <Rectangle Margin="1" Fill="White" RadiusX="1.453" RadiusY="1.453">
                     <Rectangle.Effect>
                         <DropShadowEffect BlurRadius="20" Opacity="0.1" ShadowDepth="0"/>
@@ -166,7 +166,7 @@
                                 <ColumnDefinition Width="5"/>
                                 <ColumnDefinition Width="5*"/>
                             </Grid.ColumnDefinitions>
-                            <Button Content="Проверить соединение" Command="{Binding ClickShowCreateConnection}" Style="{DynamicResource ButtonStyle-000}" BorderThickness="0" FontFamily="/ControlSystemsLibrary;component/Resources/Fonts/#Roboto" Margin="0" Height="37" Padding="1" BorderBrush="{x:Null}" Foreground="White" Grid.Column="2">
+                            <Button Content="Проверить соединение" Command="{Binding ClickCheckSelectedConnection}" Style="{DynamicResource ButtonStyle-000}" BorderThickness="0" FontFamily="/ControlSystemsLibrary;component/Resources/Fonts/#Roboto" Margin="0" Height="37" Padding="1" BorderBrush="{x:Null}" Foreground="White" Grid.Column="2">
                                 <Button.Background>
                                     <SolidColorBrush Color="{DynamicResource Blue-001}"/>
                                 </Button.Background>
@@ -180,7 +180,7 @@
                     </Grid>
                 </Border>
             </Grid>
-            <Grid x:Name="CreateConnectionListGrid" Visibility="{Binding CreateConnectionVisibility, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1">
+            <Grid x:Name="CreateConnectionListGrid" IsEnabled="{Binding CreateconnectionEnabled, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding CreateConnectionVisibility, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" d:IsHidden="True">
                 <Rectangle Margin="1" Fill="White" RadiusX="4.458" RadiusY="4.458">
                     <Rectangle.Effect>
                         <DropShadowEffect BlurRadius="20" Opacity="0.1" ShadowDepth="0"/>
