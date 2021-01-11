@@ -16,7 +16,6 @@ using ControlSystemsLibrary.Services;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Collections;
-
 namespace ControlSystemsLibrary.ViewModels
 {
     class AuthorizationVM : ViewModelBase
@@ -25,7 +24,12 @@ namespace ControlSystemsLibrary.ViewModels
         public AuthorizationVM()
         {
             StartMethod();
+
+            ConnectionStringTrueVisibility = Visibility.Hidden;
+            CreateConnectionVisibility = Visibility.Hidden;
+            ConnectionListVisibility = Visibility.Hidden;
         }
+
 
 
         #region Свойства и поля =============================================================================================
@@ -85,7 +89,7 @@ namespace ControlSystemsLibrary.ViewModels
                     ConnectionStringFalseVisibility = Visibility.Visible;
                     ConnectionStringTrueVisibility = Visibility.Collapsed;
                 }
-                
+
                 ClearCreatedValues();
                 CheckCreatedValues();
                 OnPropertyChanged();
@@ -206,7 +210,7 @@ namespace ControlSystemsLibrary.ViewModels
 
 
         // Цвет текста "Название текущего подлючения" -----------------------------------------------------------------------
-        private SolidColorBrush currentConnectionTextColor = GetColor.Get("Dark-003");
+        private SolidColorBrush currentConnectionTextColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF4C566E"));
         public SolidColorBrush CurrentConnectionTextColor
         {
             get => currentConnectionTextColor;
@@ -254,7 +258,7 @@ namespace ControlSystemsLibrary.ViewModels
 
 
         // Цвет текста сообщения --------------------------------------------------------------------------------------------
-        private SolidColorBrush messageTextColor = new SolidColorBrush(Colors.White);
+        private SolidColorBrush messageTextColor = new SolidColorBrush(Colors.Red);
         public SolidColorBrush MessageTextColor
         {
             get => messageTextColor;
@@ -363,7 +367,7 @@ namespace ControlSystemsLibrary.ViewModels
 
 
         // Visibility окна списка подключений -------------------------------------------------------------------------------
-        private Visibility connectionListVisibility = Visibility.Hidden;
+        private Visibility connectionListVisibility = Visibility.Visible;
         public Visibility ConnectionListVisibility
         {
             get => connectionListVisibility;
@@ -381,7 +385,7 @@ namespace ControlSystemsLibrary.ViewModels
 
 
         // Visibility окна создани подключения ------------------------------------------------------------------------------
-        private Visibility createConnectionVisibility = Visibility.Hidden;
+        private Visibility createConnectionVisibility = Visibility.Visible;
         public Visibility CreateConnectionVisibility
         {
             get => createConnectionVisibility;
@@ -394,8 +398,9 @@ namespace ControlSystemsLibrary.ViewModels
         }
 
 
+
         // Visibility элементов для создания с режимом "ConnectionString" ---------------------------------------------------
-        private Visibility connectionStringTrueVisibility = Visibility.Hidden;
+        private Visibility connectionStringTrueVisibility = Visibility.Visible;
         public Visibility ConnectionStringTrueVisibility
         {
             get => connectionStringTrueVisibility;
@@ -541,7 +546,7 @@ namespace ControlSystemsLibrary.ViewModels
 
             if (await Task.Run(() => OpenCloseConnection(Cryption.Decrypt(CurrentCryptConnectionString))) == true)
             {
-                ShowMessage("Соединение установлено!", "Green-002", false);
+                ShowMessage("Соединение установлено!", "Green-003", false);
                 ConnectionListEnabled = true;
             }
             else
@@ -563,7 +568,7 @@ namespace ControlSystemsLibrary.ViewModels
 
 
             await Task.Run(() => XmlClass.SetSelectConnection(CurrentConnectionName));
-            
+
             CurrentCryptConnectionString = await Task.Run(XmlClass.GetSelectedConnectionString);
 
 
@@ -617,10 +622,10 @@ namespace ControlSystemsLibrary.ViewModels
             AuthorizationEnabled = false;
             ShowMessage("Получение имени пользователя...", "Blue-003", true);
             CurrentUserName = await Task.Run(XmlClass.GetCurrentUserName);
-            
+
             ShowMessage("Получение названия подключения...", "Blue-003", true);
             CurrentConnectionName = await Task.Run(XmlClass.GetSelectedConnectionName);
-            
+
             ShowMessage("Загрузка зашифрованной строки подключения...", "Blue-003", true);
             CurrentCryptConnectionString = await Task.Run(XmlClass.GetSelectedConnectionString);
 
@@ -629,7 +634,7 @@ namespace ControlSystemsLibrary.ViewModels
                 ShowMessage("Установка соединения...", "Blue-003", true);
                 if (await Task.Run(() => OpenCloseConnection(Cryption.Decrypt(CurrentCryptConnectionString))))
                 {
-                    ShowMessage("Соединение установлено!", "Green-002", false);
+                    ShowMessage("Соединение установлено!", "Green-003", false);
                     AuthorizationEnabled = true;
                 }
                 else
@@ -676,7 +681,7 @@ namespace ControlSystemsLibrary.ViewModels
 
             ShowMessage(false);
         }
-        
+
 
 
 
@@ -698,7 +703,7 @@ namespace ControlSystemsLibrary.ViewModels
             ConnectionListVisibility = Visibility.Visible;
             CreateConnectionVisibility = Visibility.Collapsed;
         }
-        
+
         // Метод: Показывает окно создания подключения (остальные окна скрывает) --------------------------------------------
         void ShowCreateConnection()
         {
@@ -730,6 +735,7 @@ namespace ControlSystemsLibrary.ViewModels
         // Метод: Проверяет заполненость значений для проверки соединения ---------------------------------------------------
         void CheckCreatedValues()
         {
+            CheckcreatedConnectionResult = false;
             if (ConnectionStringMode == true)
             {
                 if (CreatedConnectionStringName != "" && CreatedConnectionString != "")
@@ -769,7 +775,16 @@ namespace ControlSystemsLibrary.ViewModels
                 CheckcreatedConnectionResult = false;
                 if (ConnectionStringMode == true)
                 {
-                    ConnectionStringBuilder.ConnectionString = CreatedConnectionString;
+                    try
+                    {
+                        ConnectionStringBuilder.ConnectionString = CreatedConnectionString;
+                    }
+                    catch (Exception ex)
+                    {
+                        ShowMessage(ex.Message, "Red-001", false);
+                        CreateconnectionEnabled = true;
+                        return;
+                    }
                 }
                 else
                 {
@@ -782,7 +797,7 @@ namespace ControlSystemsLibrary.ViewModels
 
                 if (await Task.Run(() => OpenCloseConnection(ConnectionStringBuilder.ConnectionString)))
                 {
-                    ShowMessage("Соединение установлено!", "Green-002", false);
+                    ShowMessage("Соединение установлено!", "Green-003", false);
                     CheckcreatedConnectionResult = true;
                     CreateconnectionEnabled = true;
                 }
@@ -794,7 +809,7 @@ namespace ControlSystemsLibrary.ViewModels
             }
             else
             {
-                ShowMessage("Подключение с названием "+'"'+ createdConnectionStringName+'"' +" уже создано. Измените название.", "Red-001", false);
+                ShowMessage("Подключение с названием " + '"' + createdConnectionStringName + '"' + " уже создано. Измените название.", "Red-001", false);
             }
         }
 
@@ -829,17 +844,17 @@ namespace ControlSystemsLibrary.ViewModels
             ShowMessage("Сохранение подключения...", "Blue-003", true);
 
             CurrentConnectionName = CreatedConnectionStringName;
-            if(await Task.Run(() => XmlClass.CreateConnectionString(CurrentConnectionName, ConnectionStringBuilder.ConnectionString)) == true)
+            if (await Task.Run(() => XmlClass.CreateConnectionString(CurrentConnectionName, ConnectionStringBuilder.ConnectionString)) == true)
             {
                 ClearCreatedValues();
-                ShowMessage("Подключение " + '"' + CurrentConnectionName + '"' + " сохранено!", "Green-002", false);
+                ShowMessage("Подключение " + '"' + CurrentConnectionName + '"' + " сохранено!", "Green-003", false);
                 CurrentConnectionTextColor = GetColor.Get("Dark-003");
             }
             else
             {
-                ShowMessage("Что-то пошло не так", "Green-002", false);
+                ShowMessage("Что-то пошло не так", "Green-003", false);
             }
-            
+
             SaveCreatedConnectionButtonEnabled = false;
             CreateconnectionEnabled = true;
         }
@@ -847,29 +862,14 @@ namespace ControlSystemsLibrary.ViewModels
 
 
 
-
+        // Метод: Показывает текст сообщения и анимация загрузки (1-перегрузка) ---------------------------------------------
         void ShowMessage(string Text, string TextColor, bool ShowLoader)
         {
             MessageText = Text;
             MessageTextColor = GetColor.Get(TextColor);
-            if(ShowLoader)
-            {
-                LoaderUC = new Loader();
-            }
-            else
-            {
-                LoaderUC = null;
-            }
-        }
-
-        void ShowMessage(string Text, bool ShowLoader)
-        {
-            MessageText = Text;
-            MessageTextColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF4C566E"));
-
             if (ShowLoader)
             {
-                LoaderUC = new Loader();
+                LoaderUC = new LoaderCubes();
             }
             else
             {
@@ -877,6 +877,7 @@ namespace ControlSystemsLibrary.ViewModels
             }
         }
 
+        // Метод: Показывает текст сообщения и анимация загрузки (2-перегрузка) ---------------------------------------------
         void ShowMessage(bool ShowLoader)
         {
             MessageText = "";
@@ -884,7 +885,7 @@ namespace ControlSystemsLibrary.ViewModels
 
             if (ShowLoader)
             {
-                LoaderUC = new Loader();
+                LoaderUC = new LoaderCubes();
             }
             else
             {
@@ -892,6 +893,23 @@ namespace ControlSystemsLibrary.ViewModels
             }
         }
 
-        #endregion ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::    
+        #endregion ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::   
+
+
+
+        public ICommand TestCommand
+        {
+            get
+            {
+                return new DelegateCommand((obj) =>
+                {
+                    string s = obj as string;
+                    MessageBox.Show(s);
+                });
+            }
+        }
+
+
+
     }
 }

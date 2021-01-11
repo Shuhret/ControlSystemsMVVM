@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 
+
 namespace ControlSystemsLibrary.Services
 {
     class GetColor

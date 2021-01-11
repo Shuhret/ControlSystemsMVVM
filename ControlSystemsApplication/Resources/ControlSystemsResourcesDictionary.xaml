@@ -1,8 +1,12 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:ControlSystemsApplication.Resources">
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/ControlSystemsLibrary;component/Resources/AllResources.xaml"/>
+        <ResourceDictionary Source="/ControlSystemsLibrary;component/Resources/Colors.xaml"/>
+        <ResourceDictionary Source="/ControlSystemsLibrary;component/Resources/Styles/WindowStyle/VS2012WindowStyle.xaml"/>
+        <ResourceDictionary Source="/ControlSystemsLibrary;component/Resources/Icons/VectorIcons.xaml"/>
+        <ResourceDictionary Source="/ControlSystemsLibrary;component/Resources/Styles/ElementStyles.xaml"/>
     </ResourceDictionary.MergedDictionaries>
-    
+
+
 </ResourceDictionary>

@@ -4,7 +4,6 @@
                     x:Class="ControlSystemsLibrary.Resources.Styles.WindowStyle.VS2012WindowStyle">
 
 
-
     <SolidColorBrush x:Key="TitleBarBackgroundBrush" Color="Transparent" />
     <SolidColorBrush x:Key="VS2012WindowBorderBrush" Color="#FF1697FC" />
     <SolidColorBrush x:Key="VS2012WindowBorderBrushInactive" Color="#999999" />
@@ -72,7 +71,7 @@
                             <Border x:Name="PART_Border" Width="Auto" Height="Auto" BorderBrush="{StaticResource VS2012WindowBorderBrush}" BorderThickness="1" Padding="0">
                                 <DockPanel HorizontalAlignment="Stretch" Background="Transparent" VerticalAlignment="Stretch">
                                     <Border x:Name="TitleBar" BorderBrush="#FFCCD3DD" DockPanel.Dock="Top" SnapsToDevicePixels="True" Background="{StaticResource TitleBarBackgroundBrush}" BorderThickness="0,0,0,0">
-                                        <Grid Height="32" Background="#FFF9FAFC">
+                                        <Grid Height="32" Background="#FFF3F6FB">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="36"/>
                                                 <ColumnDefinition/>
@@ -160,10 +159,6 @@
         </Style.Resources>
 
     </Style>
-
-
-
-
 
 
 </ResourceDictionary>

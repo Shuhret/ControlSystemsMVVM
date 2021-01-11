@@ -3,10 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
              xmlns:local="clr-namespace:ControlSystemsLibrary.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="38" Height="38" d:DesignWidth="428" OverridesDefaultStyle="True" SnapsToDevicePixels="True"  Style="{DynamicResource RBS}" FontFamily="/ControlSystemsLibrary;component/Resources/Fonts/#Roboto Condensed" FontSize="13">
+             d:DesignHeight="42" d:DesignWidth="428" Height="42" OverridesDefaultStyle="True" SnapsToDevicePixels="True"  Style="{DynamicResource RBS}" FontFamily="/ControlSystemsLibrary;component/Resources/Fonts/#Roboto Condensed" FontSize="13">
     <RadioButton.Resources>
 
         <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">
@@ -16,7 +15,7 @@
                         <Grid>
                             <Border Background="Transparent">
                                 <Grid>
-                                    <Rectangle x:Name="rectangle" Fill="White" Margin="0" RadiusY="1" RadiusX="1" Visibility="Hidden"/>
+                                    <Rectangle x:Name="rectangle" Fill="White" Margin="0" RadiusY="15" RadiusX="15" Visibility="Hidden"/>
                                     <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                                 </Grid>
                             </Border>
@@ -42,13 +41,12 @@
                     <ControlTemplate TargetType="{x:Type RadioButton}">
 
                         <Grid>
-                            <Border x:Name="border1" Background="Transparent" CornerRadius="0" Margin="0" Opacity="1" Cursor="Hand" BorderThickness="0,0,0,1">
+                            <Border x:Name="border1" Background="Transparent" CornerRadius="0" Margin="0" Opacity="1" Cursor="Hand" BorderThickness="0">
                                 <Border.BorderBrush>
                                     <LinearGradientBrush EndPoint="1,0.983" StartPoint="0,0.983">
-                                        <GradientStop Color="{DynamicResource Light-001}" Offset="0"/>
-                                        <GradientStop Color="{DynamicResource Light-001}" Offset="1"/>
-                                        <GradientStop Color="{DynamicResource Light-004}" Offset="0.25"/>
-                                        <GradientStop Color="{DynamicResource Light-004}" Offset="0.75"/>
+                                        <GradientStop Color="#FFF9FAFC" Offset="0"/>
+                                        <GradientStop Color="#FFF9FAFC" Offset="1"/>
+                                        <GradientStop Color="#FF00AEFF" Offset="0.5"/>
                                     </LinearGradientBrush>
                                 </Border.BorderBrush>
                                 <Grid>
@@ -61,8 +59,8 @@
                                     <Rectangle x:Name="rectangle1" RadiusX="0" RadiusY="0" Grid.ColumnSpan="4" Opacity="0" StrokeThickness="0" Stroke="{x:Null}">
                                         <Rectangle.Fill>
                                             <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
-                                                <GradientStop Color="{DynamicResource Light-001}" Offset="0"/>
-                                                <GradientStop Color="{DynamicResource Light-001}" Offset="1"/>
+                                                <GradientStop Color="#FFF9FAFC" Offset="0"/>
+                                                <GradientStop Color="#FFF9FAFC" Offset="1"/>
                                                 <GradientStop Color="White" Offset="0.15"/>
                                                 <GradientStop Color="White" Offset="0.85"/>
                                             </LinearGradientBrush>
@@ -72,8 +70,8 @@
                                         <Rectangle x:Name="rectangle" Margin="3" RadiusY="4.5" RadiusX="4.5" Fill="#FF1697FC" Visibility="Hidden"/>
                                     </Border>
                                     <ContentPresenter x:Name="contentPresenter" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" Grid.Column="1" VerticalAlignment="Center" Opacity="0.85"/>
-                                    <Button x:Name="PART_DeleteButton" Grid.Column="3" Style="{DynamicResource ButtonStyle}" Visibility="Hidden" Margin="0,5,5,5" Width="40">
-                                        <Viewbox Margin="0,5">
+                                    <Button x:Name="PART_DeleteButton" Grid.Column="3" Style="{DynamicResource ButtonStyle}" Visibility="Hidden" Width="30" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Viewbox x:Name="viewbox" Margin="0" Width="16" Height="16">
                                             <Canvas HorizontalAlignment="Left" Height="50" UseLayoutRounding="False" VerticalAlignment="Top" Width="50">
                                                 <Canvas Height="50" Canvas.Left="4.688" Canvas.Top="0" Width="40.624">
                                                     <Path Data="F1M21.875,3.125L28.125,3.125C28.988,3.125,29.687,3.825,29.687,4.687L29.687,6.25L20.313,6.25L20.313,4.687C20.313,3.825,21.012,3.125,21.875,3.125 M42.857,6.25L32.813,6.25L32.813,4.687C32.813,2.099,30.714,0,28.125,0L21.875,0C19.286,0,17.188,2.099,17.188,4.687L17.188,6.25L7.143,6.25C5.787,6.25,4.688,7.349,4.688,8.706L4.688,13.862C4.688,14.404,5.127,14.844,5.669,14.844L44.33,14.844C44.873,14.844,45.312,14.404,45.312,13.862L45.312,8.706C45.312,7.349,44.213,6.25,42.857,6.25" Height="14.844" Canvas.Left="0" Stretch="Fill" Canvas.Top="0" Width="40.624">
@@ -104,6 +102,8 @@
                                 <Setter Property="BorderBrush" TargetName="border" Value="#FF1697FC"/>
                                 <Setter Property="Visibility" TargetName="rectangle" Value="Visible"/>
                                 <Setter Property="Opacity" TargetName="contentPresenter" Value="1"/>
+                                <Setter Property="BorderThickness" Value="0,1,0,1" TargetName="border1"/>
+                                <Setter Property="Margin" TargetName="viewbox" Value="0,5"/>
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

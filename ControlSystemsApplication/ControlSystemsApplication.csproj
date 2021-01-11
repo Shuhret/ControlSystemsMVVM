@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{4E0AC033-846C-4CEC-996C-81173293312C}</ProjectGuid>
+    <ProjectGuid>{58BD2CF1-803F-49FF-89ED-4B373DA352D5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>ControlSystemsApplication</RootNamespace>
     <AssemblyName>ControlSystemsApplication</AssemblyName>
@@ -55,7 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Resources\ControlSystemsResourcesDictionary.xaml">
+    <Page Include="Resources\ControlSystemsResources.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -98,10 +98,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\ControlSystemsLibrary\ControlSystemsLibrary.csproj">
-      <Project>{9e8b9b03-f7c5-49dd-9e35-b3150663af00}</Project>
+      <Project>{9a20bd0a-dc57-4174-af73-3e5f4b00c8f5}</Project>
       <Name>ControlSystemsLibrary</Name>
     </ProjectReference>
   </ItemGroup>

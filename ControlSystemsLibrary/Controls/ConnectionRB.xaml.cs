@@ -1,23 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace ControlSystemsLibrary.Controls
 {
     [TemplatePart(Name = "PART_DeleteButton", Type = typeof(Button))]
-
     public partial class ConnectionRB : RadioButton
     {
         public event EventHandler Deleted;
@@ -25,7 +12,6 @@ namespace ControlSystemsLibrary.Controls
         {
             InitializeComponent();
         }
-
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -43,7 +29,5 @@ namespace ControlSystemsLibrary.Controls
             if (Deleted != null)
                 Deleted(this, e);
         }
-
-
     }
 }

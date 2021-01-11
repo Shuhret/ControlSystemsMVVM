@@ -3,18 +3,28 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ControlSystemsLibrary.Views"
-             xmlns:VM="clr-namespace:ControlSystemsLibrary.ViewModels" 
-             xmlns:controls="clr-namespace:ControlSystemsLibrary.Controls"
+             xmlns:local="clr-namespace:ControlSystemsLibrary.Views" 
+             xmlns:vm="clr-namespace:ControlSystemsLibrary.ViewModels"
              mc:Ignorable="d" 
-             
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              d:DesignHeight="900" d:DesignWidth="1440">
+
+    <UserControl.Resources>
+
+        <!--<ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ControlSystemsLibrary;component/Resources/AllResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>-->
+
+    </UserControl.Resources>
+
     <UserControl.DataContext>
-        <VM:AuthorizationVM/>
+        <vm:AuthorizationVM/>
     </UserControl.DataContext>
 
     <UserControl.Background>
-        <SolidColorBrush Color="{DynamicResource Light-001}"/>
+        <SolidColorBrush Color="{DynamicResource Light-002}"/>
     </UserControl.Background>
 
     <Grid>
@@ -33,7 +43,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <StackPanel x:Name="AuthorizationStackPanel" IsEnabled="{Binding AuthorizationEnabled, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding AuthorizationVisibility, UpdateSourceTrigger=PropertyChanged}" SnapsToDevicePixels="True" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" Width="280" Grid.Column="1" Grid.Row="1">
+            <StackPanel x:Name="AuthorizationStackPanel" IsEnabled="{Binding AuthorizationEnabled, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding AuthorizationVisibility, UpdateSourceTrigger=PropertyChanged}" SnapsToDevicePixels="True" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0" Width="280" Grid.Column="1" Grid.Row="1" d:IsHidden="True">
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,5">
                     <TextBlock Text="CONTROL" FontFamily="/ControlSystemsLibrary;component/Resources/Fonts/#Roboto">
                         <TextBlock.Foreground>
@@ -66,7 +76,7 @@
                         </PasswordBox.Foreground>
                     </PasswordBox>
                 </Border>
-                <Button Style="{DynamicResource ButtonStyle-000}" IsEnabled="False" Height="37" Foreground="White" FontFamily="/ControlSystemsLibrary;component/Resources/Fonts/#Roboto" Content="АВТОРИЗАЦИЯ" Margin="0,5,0,0" BorderThickness="0" BorderBrush="#FF00A3E0">
+                <Button Style="{DynamicResource ButtonStyle-001}" IsEnabled="False" Height="37" Foreground="White" FontFamily="/ControlSystemsLibrary;component/Resources/Fonts/#Roboto" Content="АВТОРИЗАЦИЯ" Margin="0,5,0,0" BorderThickness="0" BorderBrush="#FF00A3E0">
                     <Button.Background>
                         <SolidColorBrush Color="{DynamicResource Blue-001}"/>
                     </Button.Background>
@@ -77,7 +87,7 @@
                     </Button.Background>
                 </Button>
             </StackPanel>
-            <Grid x:Name="ConnectionListGrid" IsEnabled="{Binding ConnectionListEnabled, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ConnectionListVisibility, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" d:IsHidden="True">
+            <Grid x:Name="ConnectionListGrid" IsEnabled="{Binding ConnectionListEnabled, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding ConnectionListVisibility, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1">
                 <Rectangle Margin="1" Fill="White" RadiusX="1.453" RadiusY="1.453">
                     <Rectangle.Effect>
                         <DropShadowEffect BlurRadius="20" Opacity="0.1" ShadowDepth="0"/>
@@ -85,18 +95,21 @@
                 </Rectangle>
                 <Border Height="380" SnapsToDevicePixels="True" BorderThickness="1" Width="470" CornerRadius="2">
                     <Border.Background>
-                        <SolidColorBrush Color="White"/>
+                        <SolidColorBrush Color="{DynamicResource Light-001}"/>
                     </Border.Background>
                     <Border.BorderBrush>
                         <SolidColorBrush Color="{DynamicResource Light-004}"/>
                     </Border.BorderBrush>
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="45"/>
+                            <RowDefinition Height="50"/>
                             <RowDefinition />
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
                         <Border Margin="0" >
+                            <Border.Background>
+                                <SolidColorBrush Color="{DynamicResource Light-001}"/>
+                            </Border.Background>
                             <Grid Margin="0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
@@ -135,15 +148,9 @@
                                 </Button>
                             </Grid>
                         </Border>
-                        <Border Grid.Row="1" Margin="0" BorderThickness="0,1">
-                            <Border.BorderBrush>
-                                <SolidColorBrush Color="{DynamicResource Light-004}"/>
-                            </Border.BorderBrush>
-                            <Border.Background>
-                                <SolidColorBrush Color="{DynamicResource Light-001}"/>
-                            </Border.Background>
+                        <Border Grid.Row="1" Margin="0" BorderThickness="0">
                             <ScrollViewer VerticalScrollBarVisibility="Auto">
-                                <ListBox ItemsSource="{Binding Connections, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" SelectionMode="Single" Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="0" HorizontalContentAlignment="Stretch" Margin="10,0">
+                                <ListBox ItemsSource="{Binding Connections, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" SelectionMode="Single" Background="{x:Null}" BorderBrush="{x:Null}" BorderThickness="0" HorizontalContentAlignment="Stretch" Margin="10,0" Style="{DynamicResource ListBoxStyle1}">
                                     <!--<ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <controls:ConnectionRB GroupName="lbGroup" />
@@ -166,12 +173,39 @@
                                 <ColumnDefinition Width="5"/>
                                 <ColumnDefinition Width="5*"/>
                             </Grid.ColumnDefinitions>
-                            <Button Content="Проверить соединение" Command="{Binding ClickCheckSelectedConnection}" Style="{DynamicResource ButtonStyle-000}" BorderThickness="0" FontFamily="/ControlSystemsLibrary;component/Resources/Fonts/#Roboto" Margin="0" Height="37" Padding="1" BorderBrush="{x:Null}" Foreground="White" Grid.Column="2">
+                            <Button Command="{Binding ClickShowAuthorization}" Style="{DynamicResource ButtonStyle-000}" BorderThickness="1" FontFamily="/ControlSystemsLibrary;component/Resources/Fonts/#Roboto" Margin="0" Height="37" Padding="1" HorizontalAlignment="Left" Width="50">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseEnter">
+                                        <i:InvokeCommandAction Command="{Binding TestCommand}" CommandParameter="{Binding CurrentCryptConnectionString}"  x:Name="interactivityFix"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                                <Button.Foreground>
+                                    <SolidColorBrush Color="{DynamicResource Dark-003}"/>
+                                </Button.Foreground>
+                                <Button.BorderBrush>
+                                    <SolidColorBrush Color="{DynamicResource Light-005}"/>
+                                </Button.BorderBrush>
+                                <Button.Background>
+                                    <SolidColorBrush Color="White"/>
+                                </Button.Background>
+                                <Viewbox Width="20">
+                                    <Canvas HorizontalAlignment="Left" Height="50" UseLayoutRounding="False" VerticalAlignment="Top" Width="50">
+                                        <Canvas Height="40" Canvas.Left="13.128" Canvas.Top="5" Width="23.744">
+                                            <Path Data="M36.8721,5L13.1281,25.02L36.8721,45" Height="45.669" Canvas.Left="-2.835" StrokeStartLineCap="Round" Stretch="Fill" StrokeEndLineCap="Round" StrokeThickness="5.669" StrokeLineJoin="Round" Canvas.Top="-2.834" Width="29.413">
+                                                <Path.Stroke>
+                                                    <SolidColorBrush Color="{DynamicResource Dark-002}"/>
+                                                </Path.Stroke>
+                                            </Path>
+                                        </Canvas>
+                                    </Canvas>
+                                </Viewbox>
+                            </Button>
+                            <Button Content="Проверить соединение" Command="{Binding ClickCheckSelectedConnection}" Style="{DynamicResource ButtonStyle-001}" BorderThickness="0" FontFamily="/ControlSystemsLibrary;component/Resources/Fonts/#Roboto" Margin="0" Height="37" Padding="1" BorderBrush="{x:Null}" Foreground="White" Grid.Column="2">
                                 <Button.Background>
                                     <SolidColorBrush Color="{DynamicResource Blue-001}"/>
                                 </Button.Background>
                             </Button>
-                            <Button Content="Создать" Command="{Binding ClickShowCreateConnection}" Style="{DynamicResource ButtonStyle-000}" BorderThickness="0" FontFamily="/ControlSystemsLibrary;component/Resources/Fonts/#Roboto" Margin="0" Height="37" Padding="1" BorderBrush="{x:Null}" Foreground="White" Grid.Column="4">
+                            <Button Content="Создать" Command="{Binding ClickShowCreateConnection}" Style="{DynamicResource ButtonStyle-001}" BorderThickness="0" FontFamily="/ControlSystemsLibrary;component/Resources/Fonts/#Roboto" Margin="0" Height="37" Padding="1" BorderBrush="{x:Null}" Foreground="White" Grid.Column="4">
                                 <Button.Background>
                                     <SolidColorBrush Color="{DynamicResource Blue-001}"/>
                                 </Button.Background>
@@ -186,13 +220,16 @@
                         <DropShadowEffect BlurRadius="20" Opacity="0.1" ShadowDepth="0"/>
                     </Rectangle.Effect>
                 </Rectangle>
-                <Border Height="380" SnapsToDevicePixels="True" BorderThickness="1" Width="470" CornerRadius="2" Background="White">
+                <Border Height="380" SnapsToDevicePixels="True" BorderThickness="1" Width="470" CornerRadius="2">
+                    <Border.Background>
+                        <SolidColorBrush Color="{DynamicResource Light-001}"/>
+                    </Border.Background>
                     <Border.BorderBrush>
                         <SolidColorBrush Color="{DynamicResource Light-004}"/>
                     </Border.BorderBrush>
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="45"/>
+                            <RowDefinition Height="50"/>
                             <RowDefinition />
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
@@ -235,13 +272,7 @@
                                 </Button>
                             </Grid>
                         </Border>
-                        <Border Grid.Row="1" Margin="0" BorderThickness="0,1">
-                            <Border.BorderBrush>
-                                <SolidColorBrush Color="{DynamicResource Light-004}"/>
-                            </Border.BorderBrush>
-                            <Border.Background>
-                                <SolidColorBrush Color="{DynamicResource Light-001}"/>
-                            </Border.Background>
+                        <Border Grid.Row="1" Margin="0" BorderThickness="0">
                             <Grid Margin="20,20,20,30">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="5*"/>
@@ -399,17 +430,17 @@
                                 <ColumnDefinition Width="5"/>
                                 <ColumnDefinition Width="5*"/>
                             </Grid.ColumnDefinitions>
-                            <CheckBox Content="Connection string" IsChecked="{Binding ConnectionStringMode, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource CheckBoxStyle-001}" FontFamily="/ControlSystemsLibrary;component/Resources/Fonts/#Roboto Condensed" FontSize="13" Margin="0" Grid.ColumnSpan="5">
+                            <CheckBox Content="Connection string" IsChecked="{Binding ConnectionStringMode, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource CheckBoxStyle-001}" FontFamily="/ControlSystemsLibrary;component/Resources/Fonts/#Roboto Condensed" FontSize="13" Margin="0" Grid.ColumnSpan="5" HorizontalAlignment="Left" VerticalAlignment="Center">
                                 <CheckBox.Foreground>
                                     <SolidColorBrush Color="{DynamicResource Dark-004}"/>
                                 </CheckBox.Foreground>
                             </CheckBox>
-                            <Button Content="Проверить соединение" Command="{Binding ClickCheckCreatedConnection}" IsEnabled="{Binding CheckCreatedConnectionButtonEnabled, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource ButtonStyle-000}" BorderThickness="0" FontFamily="/ControlSystemsLibrary;component/Resources/Fonts/#Roboto" Margin="0" Padding="1" Foreground="White" Grid.Column="2" BorderBrush="{x:Null}" Height="37">
+                            <Button Content="Проверить соединение" Command="{Binding ClickCheckCreatedConnection}" IsEnabled="{Binding CheckCreatedConnectionButtonEnabled, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource ButtonStyle-001}" BorderThickness="0" FontFamily="/ControlSystemsLibrary;component/Resources/Fonts/#Roboto" Margin="0" Padding="1" Foreground="White" Grid.Column="2" BorderBrush="{x:Null}" Height="37">
                                 <Button.Background>
                                     <SolidColorBrush Color="{DynamicResource Blue-001}"/>
                                 </Button.Background>
                             </Button>
-                            <Button Content="Сохранить" Command="{Binding SaveConnectionCommand}" IsEnabled="{Binding SaveCreatedConnectionButtonEnabled, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource ButtonStyle-000}" BorderThickness="0" FontFamily="/ControlSystemsLibrary;component/Resources/Fonts/#Roboto" Margin="0" Padding="1" Foreground="White" Grid.Column="4" BorderBrush="{x:Null}" Height="37">
+                            <Button Content="Сохранить" Command="{Binding SaveConnectionCommand}" IsEnabled="{Binding SaveCreatedConnectionButtonEnabled, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource ButtonStyle-001}" BorderThickness="0" FontFamily="/ControlSystemsLibrary;component/Resources/Fonts/#Roboto" Margin="0" Padding="1" Foreground="White" Grid.Column="4" BorderBrush="{x:Null}" Height="37">
                                 <Button.Background>
                                     <SolidColorBrush Color="{DynamicResource Blue-001}"/>
                                 </Button.Background>
