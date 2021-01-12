@@ -13,6 +13,6 @@
         <mv:MainWindowVM/>
     </Window.DataContext>
     <Grid Background="#FFF9FAFC">
-        <ContentControl Content="{Binding CurrentUserControl, UpdateSourceTrigger=PropertyChanged}"/>
+        <ContentControl Content="{Binding CurrentUserInterface, UpdateSourceTrigger=PropertyChanged}"/>
     </Grid>
 </Window>

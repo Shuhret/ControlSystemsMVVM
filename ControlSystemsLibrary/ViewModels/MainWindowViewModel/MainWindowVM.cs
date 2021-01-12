@@ -1,4 +1,6 @@
-﻿using ControlSystemsLibrary.ViewModels.Base;
+﻿using System.Collections.ObjectModel;
+using ControlSystemsLibrary.Models.Classes;
+using ControlSystemsLibrary.ViewModels.Base;
 using ControlSystemsLibrary.Views;
 using System;
 using System.Collections.Generic;
@@ -9,23 +11,32 @@ using System.Windows.Controls;
 
 namespace ControlSystemsLibrary.ViewModels.MainWindowViewModel
 {
+    public delegate void AddSetUserInterface(UserControl UserInterface);
     public class MainWindowVM : ViewModelBase
     {
         public MainWindowVM()
         {
-            CurrentUserControl = new Authorization();
+            AddSetUserInterface ASUI = SetUserINterface;
+            CurrentUserInterface = new Authorization(ASUI);
         }
 
-        private UserControl currentUserControl;
-        public UserControl CurrentUserControl
+        void SetUserINterface(UserControl UserInterface)
         {
-            get => currentUserControl;
+            CurrentUserInterface = UserInterface;
+        }
+
+
+        private UserControl currentUserInterface;
+        public UserControl CurrentUserInterface
+        {
+            get => currentUserInterface;
             set
             {
-                currentUserControl = value;
+                currentUserInterface = value;
                 OnPropertyChanged();
             }
-
         }
+
+
     }
 }

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ControlSystemsLibrary.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="42" d:DesignWidth="428" Height="42" OverridesDefaultStyle="True" SnapsToDevicePixels="True"  Style="{DynamicResource RBS}" FontFamily="/ControlSystemsLibrary;component/Resources/Fonts/#Roboto Condensed" FontSize="13">
+             d:DesignHeight="42" d:DesignWidth="428" Height="40" OverridesDefaultStyle="True" SnapsToDevicePixels="True"  Style="{DynamicResource RBS}" FontFamily="/ControlSystemsLibrary;component/Resources/Fonts/#Roboto Condensed" FontSize="13">
     <RadioButton.Resources>
 
         <Style x:Key="ButtonStyle" TargetType="{x:Type Button}">

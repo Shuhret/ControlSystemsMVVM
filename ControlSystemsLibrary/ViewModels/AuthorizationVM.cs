@@ -16,23 +16,131 @@ using ControlSystemsLibrary.Services;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Collections;
+using ControlSystemsLibrary.ViewModels.MainWindowViewModel;
+using ControlSystemsLibrary.Models.Classes;
+using ControlSystemsLibrary.Views;
+using System.Collections.Specialized;
+
 namespace ControlSystemsLibrary.ViewModels
 {
     class AuthorizationVM : ViewModelBase
     {
+        public AddSetUserInterface ASUI;
+
+        public ObservableCollection<UserInterfacesClass> UserInterfacesCollection = new ObservableCollection<UserInterfacesClass>();
+
+
+
         // КОНСТРУКТОР ------------------------------------------------------------------------------------------------------
         public AuthorizationVM()
         {
             StartMethod();
-
             ConnectionStringTrueVisibility = Visibility.Hidden;
             CreateConnectionVisibility = Visibility.Hidden;
             ConnectionListVisibility = Visibility.Hidden;
+            UserInterfacesCollection.CollectionChanged += UserInterfacesCollection_CollectionChanged;
+        }
+
+        private void UserInterfacesCollection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            
         }
 
 
 
+        // Команда для авторизации ------------------------------------------------------------------------------------------
+        public ICommand ClickAuthorizationCommand
+        {
+            get
+            {
+                return new DelegateCommand((obj) =>
+                {
+                    UserAuthorization((obj as PasswordBox));
+                });
+            }
+        }
+
+        async void UserAuthorization(PasswordBox passwordBox)
+        {
+            ShowMessage("Проверка логина и пароля...", "Blue-003", true);
+            string message = "";
+            if (await Task.Run(() => DataBaseRequest.CheckAuthorization(CurrentUserName, passwordBox.Password, ref message) == true))
+            {
+                string UserInterfaceName = DataBaseRequest.GetUserInterfaceName(CurrentUserName);
+                string UserInterfaceFullName = GenerateUserInterfaceFullName(UserInterfaceName);
+                if (CheckUserInterfacesCollection(UserInterfaceFullName) == false)
+                {
+                    UserControl UC = GetNewUserInterface(UserInterfaceName);
+                    UserInterfacesClass UIC = new UserInterfacesClass();
+                    UIC.FullUserInterfaceName = UserInterfaceFullName;
+                    UIC.UserInterfaceControl = UC;
+                    UserInterfacesCollection.Add(UIC);
+                    ASUI(UIC.UserInterfaceControl);
+                }
+                else
+                {
+                    ASUI(GetUserInterfaceFromCollection(UserInterfaceFullName).UserInterfaceControl);
+                }
+            }
+            else
+            {
+                ShowMessage(message, "Red-001", false);
+            }
+        }
+
+        string GenerateUserInterfaceFullName(string UserInterfaceControlName)
+        {
+            return  Strings.RemoveCharacters(CurrentUserName) + Strings.RemoveCharacters(UserInterfaceControlName) + Strings.RemoveCharacters(CurrentConnectionName);
+        }
+
+        UserControl GetNewUserInterface(string UserInterfaceName)
+        {
+            switch(UserInterfaceName)
+            {
+                case "Администратор": return new Administrator();
+                case "Логист": return new Logist();
+                default: return null;
+            }
+        }
+
+        UserInterfacesClass GetUserInterfaceFromCollection(string UserInterfaceFullName)
+        {
+            foreach (UserInterfacesClass UIC in UserInterfacesCollection)
+            {
+                if (UIC.FullUserInterfaceName == UserInterfaceFullName)
+                {
+                    return UIC;
+                }
+            }
+            return null;
+        }
+
+        bool CheckUserInterfacesCollection(string UserInterfaceFullName)
+        {
+            foreach(UserInterfacesClass UIC in UserInterfacesCollection)
+            {
+                if(UIC.FullUserInterfaceName == UserInterfaceFullName)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
         #region Свойства и поля =============================================================================================
+
+
 
         // Имя текущего пользователя ----------------------------------------------------------------------------------------
         private string currentUserName = "";
@@ -367,7 +475,7 @@ namespace ControlSystemsLibrary.ViewModels
 
 
         // Visibility окна списка подключений -------------------------------------------------------------------------------
-        private Visibility connectionListVisibility = Visibility.Visible;
+        private Visibility connectionListVisibility;
         public Visibility ConnectionListVisibility
         {
             get => connectionListVisibility;
@@ -385,7 +493,7 @@ namespace ControlSystemsLibrary.ViewModels
 
 
         // Visibility окна создани подключения ------------------------------------------------------------------------------
-        private Visibility createConnectionVisibility = Visibility.Visible;
+        private Visibility createConnectionVisibility;
         public Visibility CreateConnectionVisibility
         {
             get => createConnectionVisibility;
@@ -400,7 +508,7 @@ namespace ControlSystemsLibrary.ViewModels
 
 
         // Visibility элементов для создания с режимом "ConnectionString" ---------------------------------------------------
-        private Visibility connectionStringTrueVisibility = Visibility.Visible;
+        private Visibility connectionStringTrueVisibility;
         public Visibility ConnectionStringTrueVisibility
         {
             get => connectionStringTrueVisibility;
@@ -449,7 +557,7 @@ namespace ControlSystemsLibrary.ViewModels
         #region Команды =====================================================================================================
 
         // Команда для перехода в окно списка подключений -------------------------------------------------------------------
-        public ICommand ClickShowConnectionList
+        public ICommand ClickShowConnectionListCommand
         {
             get
             {
@@ -462,7 +570,7 @@ namespace ControlSystemsLibrary.ViewModels
         }
 
         // Команда для перехода в окно авторизации --------------------------------------------------------------------------
-        public ICommand ClickShowAuthorization
+        public ICommand ClickShowAuthorizationCommand
         {
             get
             {
@@ -475,7 +583,7 @@ namespace ControlSystemsLibrary.ViewModels
         }
 
         // Команда для перехода в окно создания подключения -----------------------------------------------------------------
-        public ICommand ClickShowCreateConnection
+        public ICommand ClickShowCreateConnectionCommand
         {
             get
             {
@@ -488,7 +596,7 @@ namespace ControlSystemsLibrary.ViewModels
         }
 
         // Команда для проверки соединения с создаваемым подключением -------------------------------------------------------
-        public ICommand ClickCheckCreatedConnection
+        public ICommand ClickCheckCreatedConnectionCommand
         {
             get
             {
@@ -524,7 +632,7 @@ namespace ControlSystemsLibrary.ViewModels
         }
 
         // Команда для проверки соединения с выбранным подключением ---------------------------------------------------------
-        public ICommand ClickCheckSelectedConnection
+        public ICommand ClickCheckSelectedConnectionCommand
         {
             get
             {
@@ -534,6 +642,8 @@ namespace ControlSystemsLibrary.ViewModels
                 });
             }
         }
+
+
 
 
         #endregion ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -903,8 +1013,7 @@ namespace ControlSystemsLibrary.ViewModels
             {
                 return new DelegateCommand((obj) =>
                 {
-                    string s = obj as string;
-                    MessageBox.Show(s);
+                    MessageBox.Show(obj.ToString());
                 });
             }
         }

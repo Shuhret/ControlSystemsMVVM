@@ -16,14 +16,6 @@ namespace ControlSystemsLibrary.ViewModels.Base
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
         }
 
-        //protected bool Set<T>(ref T field, T value, [CallerMemberName] string Property = null)
-        //{
-        //    if (Equals(field, value))
-        //        return false;
-        //    OnPropertyChanged(Property);
-        //    return true;
-        //}
-
 
         private bool _Disposed;
         public void Dispose()
