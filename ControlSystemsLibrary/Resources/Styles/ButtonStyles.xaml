@@ -65,15 +65,6 @@
                                 <EasingThicknessKeyFrame KeyTime="0:0:0.1" Value="0"/>
                             </ThicknessAnimationUsingKeyFrames>
                         </Storyboard>
-                        <Storyboard x:Key="EnabledTrue">
-                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="rectangle2">
-                                <EasingDoubleKeyFrame KeyTime="0" Value="0.5"/>
-                                <EasingDoubleKeyFrame KeyTime="0:0:0.1" Value="0"/>
-                            </DoubleAnimationUsingKeyFrames>
-                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="rectangle2">
-                                <DiscreteObjectKeyFrame KeyTime="0:0:0.1" Value="{x:Static Visibility.Visible}"/>
-                            </ObjectAnimationUsingKeyFrames>
-                        </Storyboard>
                     </ControlTemplate.Resources>
                     <Grid Cursor="Hand">
                         <Rectangle x:Name="rectangle" Fill="{TemplateBinding Background}">
@@ -90,11 +81,6 @@
                         </Grid>
                     </Grid>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsEnabled" Value="True">
-                            <Trigger.EnterActions>
-                                <BeginStoryboard x:Name="EnabledTrue_BeginStoryboard" Storyboard="{StaticResource EnabledTrue}"/>
-                            </Trigger.EnterActions>
-                        </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Opacity" TargetName="rectangle1" Value="0.1"/>
                         </Trigger>
