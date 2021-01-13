@@ -54,9 +54,11 @@
     <Compile Include="Models\Classes\UserInterfacesClass.cs" />
     <Compile Include="Services\DataBaseRequest.cs" />
     <Compile Include="Services\Strings.cs" />
+    <Compile Include="ViewModels\AdministratorVM.cs" />
     <Compile Include="ViewModels\AuthorizationVM.cs" />
     <Compile Include="ViewModels\Base\DelegateCommand.cs" />
     <Compile Include="ViewModels\Base\ViewModelBase.cs" />
+    <Compile Include="ViewModels\LogistVM.cs" />
     <Compile Include="ViewModels\MainWindowViewModel\MainWindowVM.cs" />
     <Compile Include="Views\Administrator.xaml.cs">
       <DependentUpon>Administrator.xaml</DependentUpon>

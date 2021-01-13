@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ControlSystemsLibrary.ViewModels;
+using ControlSystemsLibrary.ViewModels.MainWindowViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +22,14 @@ namespace ControlSystemsLibrary.Views
     /// </summary>
     public partial class Logist : UserControl
     {
-        public Logist()
+        public Logist(AddSetUserInterface ASUI, Authorization AuthorizationView)
         {
             InitializeComponent();
+
+            LogistVM LVM = this.DataContext as LogistVM;
+            LVM.ASUI = ASUI;
+            LVM.LogistView = this;
+            LVM.AuthorizationView = AuthorizationView;
         }
     }
 }

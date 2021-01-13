@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ControlSystemsLibrary.ViewModels;
+using ControlSystemsLibrary.ViewModels.MainWindowViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,14 +17,16 @@ using System.Windows.Shapes;
 
 namespace ControlSystemsLibrary.Views
 {
-    /// <summary>
-    /// Логика взаимодействия для Administrator.xaml
-    /// </summary>
     public partial class Administrator : UserControl
     {
-        public Administrator()
+        public Administrator(AddSetUserInterface ASUI, Authorization AuthorizationView)
         {
             InitializeComponent();
+
+            AdministratorVM AVM = this.DataContext as AdministratorVM;
+            AVM.ASUI = ASUI;
+            AVM.AdministratorView = this;
+            AVM.AuthorizationView = AuthorizationView;
         }
     }
 }

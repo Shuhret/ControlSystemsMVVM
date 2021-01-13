@@ -25,8 +25,10 @@ namespace ControlSystemsLibrary.Views
         public Authorization(AddSetUserInterface ASUI)
         {
             InitializeComponent();
+
             AuthorizationVM AVM = this.DataContext as AuthorizationVM;
             AVM.ASUI = ASUI;
+            AVM.AuthorizationView = this;
         }
     }
 }

@@ -20,16 +20,19 @@ using ControlSystemsLibrary.ViewModels.MainWindowViewModel;
 using ControlSystemsLibrary.Models.Classes;
 using ControlSystemsLibrary.Views;
 using System.Collections.Specialized;
+using System.Windows.Shapes;
 
 namespace ControlSystemsLibrary.ViewModels
 {
     class AuthorizationVM : ViewModelBase
     {
+        LoaderCubes LC = new LoaderCubes();
+
         public AddSetUserInterface ASUI;
 
         public ObservableCollection<UserInterfacesClass> UserInterfacesCollection = new ObservableCollection<UserInterfacesClass>();
 
-
+        public Authorization AuthorizationView;
 
         // КОНСТРУКТОР ------------------------------------------------------------------------------------------------------
         public AuthorizationVM()
@@ -38,13 +41,27 @@ namespace ControlSystemsLibrary.ViewModels
             ConnectionStringTrueVisibility = Visibility.Hidden;
             CreateConnectionVisibility = Visibility.Hidden;
             ConnectionListVisibility = Visibility.Hidden;
-            UserInterfacesCollection.CollectionChanged += UserInterfacesCollection_CollectionChanged;
         }
 
-        private void UserInterfacesCollection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            
-        }
+
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -76,16 +93,19 @@ namespace ControlSystemsLibrary.ViewModels
                     UIC.UserInterfaceControl = UC;
                     UserInterfacesCollection.Add(UIC);
                     ASUI(UIC.UserInterfaceControl);
+                    ShowMessage(false);
                 }
                 else
                 {
                     ASUI(GetUserInterfaceFromCollection(UserInterfaceFullName).UserInterfaceControl);
+                    ShowMessage(false);
                 }
             }
             else
             {
                 ShowMessage(message, "Red-001", false);
             }
+            
         }
 
         string GenerateUserInterfaceFullName(string UserInterfaceControlName)
@@ -97,8 +117,8 @@ namespace ControlSystemsLibrary.ViewModels
         {
             switch(UserInterfaceName)
             {
-                case "Администратор": return new Administrator();
-                case "Логист": return new Logist();
+                case "Администратор": return new Administrator(ASUI, AuthorizationView);
+                case "Логист": return new Logist(ASUI, AuthorizationView);
                 default: return null;
             }
         }
@@ -979,7 +999,7 @@ namespace ControlSystemsLibrary.ViewModels
             MessageTextColor = GetColor.Get(TextColor);
             if (ShowLoader)
             {
-                LoaderUC = new LoaderCubes();
+                LoaderUC = LC;
             }
             else
             {
@@ -995,7 +1015,7 @@ namespace ControlSystemsLibrary.ViewModels
 
             if (ShowLoader)
             {
-                LoaderUC = new LoaderCubes();
+                LoaderUC = LC;
             }
             else
             {
