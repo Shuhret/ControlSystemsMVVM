@@ -7,7 +7,7 @@
         xmlns:mv="clr-namespace:ControlSystemsLibrary.ViewModels.MainWindowViewModel;assembly=ControlSystemsLibrary"
         mc:Ignorable="d"
         Style="{DynamicResource VS2012WindowStyle}"
-        Title="MainWindow" Width="1200" Height="700" WindowStartupLocation="CenterScreen" MinWidth="1040" MinHeight="600">
+        Title="MainWindow" Width="1200" Height="700" WindowStartupLocation="CenterScreen" MinWidth="1040" MinHeight="600" >
 
     <Window.DataContext>
         <mv:MainWindowVM/>

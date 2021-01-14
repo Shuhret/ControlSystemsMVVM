@@ -11,7 +11,7 @@
     <SolidColorBrush x:Key="VS2012WindowStatusForegroundInactive" Color="#FFFFFF" />
 
     <Style x:Key="VS2012WindowStyleTitleBarButton" TargetType="{x:Type Button}">
-        <Setter Property="Focusable" Value="false" />
+        <Setter Property="Focusable" Value="false"/>
         <Setter Property="Foreground" Value="#FF566283"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">

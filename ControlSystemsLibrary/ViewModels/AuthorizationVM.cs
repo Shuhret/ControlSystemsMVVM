@@ -1,26 +1,18 @@
-﻿using ControlSystemsLibrary.ViewModels.Base;
+﻿using ControlSystemsLibrary.Controls;
+using ControlSystemsLibrary.Models.Classes;
+using ControlSystemsLibrary.Services;
+using ControlSystemsLibrary.ViewModels.Base;
+using ControlSystemsLibrary.ViewModels.MainWindowViewModel;
+using ControlSystemsLibrary.Views;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Collections;
+using System.Collections.ObjectModel;
+using System.Data.SqlClient;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Data.SqlClient;
-using System.Security;
 using System.Windows.Media;
-using ControlSystemsLibrary.Controls;
-using System.Threading;
-using System.Threading.Tasks;
-using ControlSystemsLibrary.Services;
-using System.ComponentModel;
-using System.Collections.ObjectModel;
-using System.Collections;
-using ControlSystemsLibrary.ViewModels.MainWindowViewModel;
-using ControlSystemsLibrary.Models.Classes;
-using ControlSystemsLibrary.Views;
-using System.Collections.Specialized;
-using System.Windows.Shapes;
 
 namespace ControlSystemsLibrary.ViewModels
 {
@@ -79,6 +71,7 @@ namespace ControlSystemsLibrary.ViewModels
 
         async void UserAuthorization(PasswordBox passwordBox)
         {
+            AuthorizationEnabled = false;
             ShowMessage("Проверка логина и пароля...", "Blue-003", true);
             string message = "";
             if (await Task.Run(() => DataBaseRequest.CheckAuthorization(CurrentUserName, passwordBox.Password, ref message) == true))
@@ -105,7 +98,7 @@ namespace ControlSystemsLibrary.ViewModels
             {
                 ShowMessage(message, "Red-001", false);
             }
-            
+            AuthorizationEnabled = true;
         }
 
         string GenerateUserInterfaceFullName(string UserInterfaceControlName)
