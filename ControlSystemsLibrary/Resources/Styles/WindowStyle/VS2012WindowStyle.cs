@@ -1,8 +1,12 @@
-﻿using System;
+﻿using ControlSystemsLibrary.ViewModels.Base;
+using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media;
 
 namespace ControlSystemsLibrary.Resources.Styles.WindowStyle
 {
@@ -20,9 +24,37 @@ namespace ControlSystemsLibrary.Resources.Styles.WindowStyle
             return helper.Handle;
         }
     }
-
     public partial class VS2012WindowStyle
     {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         void IconMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

@@ -19,7 +19,7 @@ namespace ControlSystemsLibrary.Views
 {
     public partial class Administrator : UserControl
     {
-        public Administrator(AddSetUserInterface ASUI, Authorization AuthorizationView)
+        public Administrator(AddSetUserInterface ASUI, Authorization AuthorizationView, string CurrentUserName, string CurrentConnectionName, string CurrentCryptConnectionString)
         {
             InitializeComponent();
 
@@ -27,6 +27,9 @@ namespace ControlSystemsLibrary.Views
             AVM.ASUI = ASUI;
             AVM.AdministratorView = this;
             AVM.AuthorizationView = AuthorizationView;
+            AVM.CurrentUserName = CurrentUserName;
+            AVM.CurrentConnectionName = CurrentConnectionName;
+            AVM.CurrentCryptConnectionString = CurrentCryptConnectionString;
         }
     }
 }

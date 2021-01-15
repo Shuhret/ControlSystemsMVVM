@@ -34,5 +34,44 @@ namespace ControlSystemsLibrary.ViewModels
             }
         }
 
+
+        // Имя текущего пользователя ----------------------------------------------------------------------------------------
+        private string currentUserName = "";
+        public string CurrentUserName
+        {
+            get => currentUserName;
+            set
+            {
+                if (Equals(currentUserName, value)) return;
+                currentUserName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // Название текущего подключения ------------------------------------------------------------------------------------
+        private string currentConnectionName;
+        public string CurrentConnectionName
+        {
+            get => currentConnectionName;
+            set
+            {
+                currentConnectionName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // Текущая строка подключения (зашифровано) -------------------------------------------------------------------------
+        private string currentCryptConnectionString = "";
+        public string CurrentCryptConnectionString
+        {
+            get => currentCryptConnectionString;
+            set
+            {
+                if (Equals(currentCryptConnectionString, value)) return;
+                currentCryptConnectionString = value;
+                OnPropertyChanged();
+            }
+        }
+
     }
 }

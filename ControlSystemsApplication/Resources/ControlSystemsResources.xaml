@@ -5,5 +5,6 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/ControlSystemsLibrary;component/Resources/AllResources.xaml"/>
     </ResourceDictionary.MergedDictionaries>
+    
 
 </ResourceDictionary>

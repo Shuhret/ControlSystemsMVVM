@@ -11,6 +11,7 @@
         <ResourceDictionary Source="/ControlSystemsLibrary;component/Resources/Styles/CheckBoxStyles.xaml"/>
         <ResourceDictionary Source="/ControlSystemsLibrary;component/Resources/Styles/ListBoxStyles.xaml"/>
         <ResourceDictionary Source="/ControlSystemsLibrary;component/Resources/Styles/ScrollBarStyles.xaml"/>
+        <ResourceDictionary Source="/ControlSystemsLibrary;component/Resources/Styles/ExpanderStyles.xaml"/>
         
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

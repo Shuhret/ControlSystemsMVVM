@@ -1,5 +1,6 @@
 ﻿using ControlSystemsLibrary.Controls;
 using ControlSystemsLibrary.Models.Classes;
+using ControlSystemsLibrary.Resources.Styles.WindowStyle;
 using ControlSystemsLibrary.Services;
 using ControlSystemsLibrary.ViewModels.Base;
 using ControlSystemsLibrary.ViewModels.MainWindowViewModel;
@@ -25,6 +26,7 @@ namespace ControlSystemsLibrary.ViewModels
         public ObservableCollection<UserInterfacesClass> UserInterfacesCollection = new ObservableCollection<UserInterfacesClass>();
 
         public Authorization AuthorizationView;
+
 
         // КОНСТРУКТОР ------------------------------------------------------------------------------------------------------
         public AuthorizationVM()
@@ -110,9 +112,9 @@ namespace ControlSystemsLibrary.ViewModels
         {
             switch(UserInterfaceName)
             {
-                case "Администратор": return new Administrator(ASUI, AuthorizationView);
+                case "Администратор": return new Administrator(ASUI, AuthorizationView, CurrentUserName, CurrentConnectionName, CurrentCryptConnectionString);
                 case "Логист": return new Logist(ASUI, AuthorizationView);
-                default: return null;
+                default: return new UserInterfaceSelection();
             }
         }
 
